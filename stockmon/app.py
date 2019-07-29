@@ -26,16 +26,16 @@ def stock_root():
     days = app.config.get('DAYS', None)
     if symbol is None or days is None:
         return 'Please define some config vars for SYMBOL and DAYS'
-    data = [day.close for day in get_daily_adjusted(symbol, days)]
-    result = {
+    data = [day.close for day in get_daily_adjusted(symbol, int(days))]
+    average = reduce(lambda a, b: a + float(b), data, 0) / int(days)
+    return {
         'data': {
             'symbol': symbol,
             'series': data,
             'days': days,
-            'average': reduce(lambda a, b: a + float(b), data, 0) / days
+            'average': average
         }
     }
-    return result
 
 
 @app.route('/stockmon/v1.0/stock/<string:symbol>/close/<int:days>',

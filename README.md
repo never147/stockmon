@@ -32,3 +32,20 @@ Then curl should work:
 
     $ curl stockmon.k8s.io
     {"data":{"average":139.00142857142856,"days":"7","series":["141.3400","140.1900","140.7200","139.2900","138.4300","136.6200","136.4200"],"symbol":"MSFT"}}
+
+I additionally added an API endpoint for dynamically getting a particular set of stock data. e.g
+
+    $ curl stockmon.k8s.io/stockmon/v1.0/stock/MSFT/close/3
+    {"data":{"average":140.75,"days":3,"series":["141.3400","140.1900","140.7200"],"symbol":"MSFT"}}
+
+###### Thoughts
+
+I would like to look into how to parameterise the deployments.yaml file so I can set the version of the image without editing it.
+I imaging helm would be a good option for this.
+
+I could also extend the python library with models for the other time series data in the Alpha Vantage functions.
+
+I spent more time than I anticipated on the k8s stuff due to not using it so much before.
+On reflection I think perhaps I could have made the python lib simpler to save time for this.
+
+Matt B (2019)

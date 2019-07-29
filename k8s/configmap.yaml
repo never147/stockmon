@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stockmon-env
+  namespace: default
+data:
+  log_level: DEBUG
+  symbol: MSFT
+  days: "7"

@@ -30,7 +30,6 @@ class Stock:
         self.api_key = api_key
         self.api_url = api_url
         self.output = output
-        self._headers = {'ContentType': 'application/json'}
         self._data = None
         self.__params = None
 
@@ -66,7 +65,8 @@ class Stock:
                 try:
                     response = session.get(url=self.api_url,
                                            params=self._params,
-                                           headers=self._headers)
+                                           headers={'ContentType':
+                                                    'application/json'})
                     response.raise_for_status()
                     data = response.json()
                 except JSONDecodeError:
@@ -111,7 +111,7 @@ class StockDailyAdjusted(Stock):
 
         """
         super().__init__(symbol=symbol, api_key=api_key, api_url=api_url, output=output)
-        self._logger = logging.getLogger(__class__.__name__)
+        self._logger = logging.getLogger(self.__class__.__name__)
 
     @property
     def series(self):
@@ -148,7 +148,7 @@ class Metadata:
         return self._data.get('4. Output Size')
 
     @property
-    def tz(self):
+    def time_zone(self):
         return self._data.get('Time Zone')
 
     def __repr__(self):

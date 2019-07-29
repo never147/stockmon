@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stockmon
+spec:
+  selector:
+    matchLabels:
+      run: stockmon
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: stockmon
+    spec:
+      containers:
+      - name: stockmon
+        image: never147/stockmon:0.2.1
+        ports:
+          - containerPort: 5000
+        env:
+          - name: API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: stockmon-secret
+                key: api_key.txt
+                  # Define the environment variable
+          - name: SYMBOL
+            valueFrom:
+               configMapKeyRef:
+                 name: stockmon-env
+                 key: symbol
+          - name: DAYS
+            valueFrom:
+              configMapKeyRef:
+                name: stockmon-env
+                key: days
+          - name: LOG_LEVEL
+            valueFrom:
+              configMapKeyRef:
+                name: stockmon-env
+                key: log_level
